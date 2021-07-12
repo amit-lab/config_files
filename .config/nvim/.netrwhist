@@ -1,0 +1,12 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =2
+let g:netrw_dirhist_2='/home/amit/.config/mpd'
+let g:netrw_dirhist_1='/home/amit/.config/ncmpcpp'
+let g:netrw_dirhist_0='/home/amit/projects/mega project/virtual_pa'
+let g:netrw_dirhist_9='/home/amit/projects/mega project'
+let g:netrw_dirhist_8='/home/amit/projects'
+let g:netrw_dirhist_7='/home/amit'
+let g:netrw_dirhist_6='/home/amit/projects/mega project/virtual_pa'
+let g:netrw_dirhist_5='/home/amit/projects/mega project'
+let g:netrw_dirhist_4='/home/amit/projects'
+let g:netrw_dirhist_3='/home/amit'
