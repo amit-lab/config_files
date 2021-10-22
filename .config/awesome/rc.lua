@@ -82,10 +82,13 @@ awful.spawn.with_shell(
 
 local themes = {
     "multicolor",		-- 1
-    "powerarrow",      		-- 2
-    "powerarrow-blue",	 	-- 3
+    "powerarrow",   	-- 2
+    "powerarrow-blue",	-- 3
     "blackburn",		-- 4
     "powerarrow-dark",  -- 5
+    "steamburn",        -- 6
+    "vertex",           -- 7
+    "copland",         -- 8
 }
 
 -- choose your theme here
@@ -138,7 +141,7 @@ awful.layout.layouts = {
     --awful.layout.suit.corner.ne,
     --awful.layout.suit.corner.sw,
     --awful.layout.suit.corner.se,
-    lain.layout.cascade,
+    --lain.layout.cascade,
     --lain.layout.cascade.tile,
     --lain.layout.centerwork,
     --lain.layout.centerwork.horizontal,
@@ -311,18 +314,6 @@ globalkeys = gears.table.join(
         awful.spawn(string.format(filemanager)) end,
             {description = filemanager, group = "applications"}),
 
-    awful.key({ modkey,           }, "j",
-        function ()
-            awful.client.focus.byidx( 1)
-        end,
-        {description = "focus next by index", group = "client"}
-    ),
-    awful.key({ modkey,           }, "k",
-        function ()
-            awful.client.focus.byidx(-1)
-        end,
-        {description = "focus previous by index", group = "client"}
-    ),
     -- launch firefox and it's private tab 
     awful.key({ modkey,           }, "w", function() awful.spawn(string.format("firefox")) end,
               {description = "open firefox", group = "applications"}),
@@ -335,6 +326,44 @@ globalkeys = gears.table.join(
 
     awful.key({ modkey,           }, "c", function() awful.spawn(string.format("feh --bg-fill -r -z '/mnt/storage/Pictures/normal walpapers/'")) end,
               {description = "change wallpaper with feh", group = "applications"}),
+
+    -- mpd control with mpc program
+    awful.key({ altkey,  }, "p", function () awful.spawn(string.format("mpc toggle")) end,
+              {description = "mpd play/pause", group = "mpd control"}),
+    awful.key({ altkey,  }, "n", function () awful.spawn(string.format("mpc next")) end,
+              {description = "mpd next song", group = "mpd control"}),
+    awful.key({ altkey,  }, "r", function () awful.spawn(string.format("mpc repeat on")) end,
+              {description = "mpd repeat on", group = "mpd control"}),
+    awful.key({ altkey,  }, "f", function () awful.spawn(string.format("mpc seek +10")) end,
+              {description = "mpd seek forword by 10 sec", group = "mpd control"}),
+
+    awful.key({ altkey, "Shift" }, "p", function () awful.spawn(string.format("alacritty -e ncmpcpp")) end,
+              {description = "open ncmpcpp mpd player", group = "mpd control"}),
+    awful.key({ altkey, "Shift" }, "n", function () awful.spawn(string.format("mpc prev")) end,
+              {description = "mpd prev song", group = "mpd control"}),
+    awful.key({ altkey, "Shift" }, "r", function () awful.spawn(string.format("mpc repeat off")) end,
+              {description = "mpd repeat off", group = "mpd control"}),
+    awful.key({ altkey, "Shift" }, "f", function () awful.spawn(string.format("mpc seek -10")) end,
+              {description = "mpd seek backword by 10 sec", group = "mpd control"}),
+
+    -- switch sound profile between laptop and monitor
+    awful.key({ altkey,  }, "v", function () awful.spawn(string.format("pacmd set-card-profile alsa_card.pci-0000_00_1f.3 output:hdmi-stereo")) end,
+              {description = "switch sound profile to monitor", group = "pulse audio profile"}),
+    awful.key({ altkey,  "Shift" }, "v", function () awful.spawn(string.format("pacmd set-card-profile alsa_card.pci-0000_00_1f.3 output:analog-stereo+input:analog-stereo")) end,
+              {description = "switch sound profile to laptop", group = "pulse audio profile"}),
+
+    awful.key({ modkey,           }, "j",
+        function ()
+            awful.client.focus.byidx( 1)
+        end,
+        {description = "focus next by index", group = "client"}
+    ),
+    awful.key({ modkey,           }, "k",
+        function ()
+            awful.client.focus.byidx(-1)
+        end,
+        {description = "focus previous by index", group = "client"}
+    ),
 
     -- Layout manipulation
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end,
@@ -599,6 +628,9 @@ awful.rules.rules = {
     -- find class or role via xprop command
     { rule = { class = browser1 },
       properties = { tag = awful.util.tagnames[1], switchtotag = true } },
+
+    { rule = { class = "Galculator"},
+      properties = { ontop=true } },
 
     { rule = { class = "spotify"},
       properties = { tag = awful.util.tagnames[5], switchtotag = true } },
