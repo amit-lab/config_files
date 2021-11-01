@@ -109,7 +109,7 @@ local browser2          = "brave"
 local browser3          = "google-chrome-stable -no-default-browser-check"
 local editor            = os.getenv("EDITOR") or "nvim"
 local editorgui         = "kate"
-local filemanager       = "dolphin"
+local filemanager       = "thunar"
 local mailclient        = "evolution"
 local mediaplayer       = "mpv"
 local terminal          = "alacritty"
@@ -117,12 +117,12 @@ local virtualmachine    = "virtualbox"
 
 -- awesome variables
 awful.util.terminal = terminal
---awful.util.tagnames = {  "➊", "➋", "➌", "➍", "➎", "➏", "➐", "➑", "➒", "➓" }
+awful.util.tagnames = {  "➊", "➋", "➌", "➍", "➎", "➏", "➐", "➑", "➒", "➓" }
 -- awful.util.tagnames = { "⠐", "⠡", "⠲", "⠵", "⠻", "⠿" }
 -- awful.util.tagnames = { "⌘", "♐", "⌥", "ℵ" }
 -- awful.util.tagnames = { " www ", " dev ", " reading ", " video ", " music ", " exp2 ", " exp3 ", " exp4 ", " exp5 " }
 -- Use this : https://fontawesome.com/cheatsheet
-awful.util.tagnames = {" ","  ", "  ", " " , "  ", " ", " ", " ", " " }
+-- awful.util.tagnames = {" ","  ", "  ", " " , "  ", " ", " ", " ", " " }
 awful.layout.suit.tile.left.mirror = true
 awful.layout.layouts = {
     awful.layout.suit.tile,
@@ -314,6 +314,16 @@ globalkeys = gears.table.join(
         awful.spawn(string.format(filemanager)) end,
             {description = filemanager, group = "applications"}),
 
+    awful.key({ modkey }, "g",
+    function ()
+        awful.spawn(string.format("galculator")) end,
+            {description = "open Galculator", group = "applications"}),
+
+    awful.key({ modkey }, "x",
+    function ()
+        awful.spawn(string.format("gnome-screenshot")) end,
+            {description = "take screenshot", group = "applications"}),
+
     -- launch firefox and it's private tab 
     awful.key({ modkey,           }, "w", function() awful.spawn(string.format("firefox")) end,
               {description = "open firefox", group = "applications"}),
@@ -336,6 +346,8 @@ globalkeys = gears.table.join(
               {description = "mpd repeat on", group = "mpd control"}),
     awful.key({ altkey,  }, "f", function () awful.spawn(string.format("mpc seek +10")) end,
               {description = "mpd seek forword by 10 sec", group = "mpd control"}),
+    awful.key({ altkey,  }, "v", function () awful.spawn(string.format("mpc volume +5")) end,
+              {description = "mpd inc volume by 5", group = "mpd control"}),
 
     awful.key({ altkey, "Shift" }, "p", function () awful.spawn(string.format("alacritty -e ncmpcpp")) end,
               {description = "open ncmpcpp mpd player", group = "mpd control"}),
@@ -345,11 +357,13 @@ globalkeys = gears.table.join(
               {description = "mpd repeat off", group = "mpd control"}),
     awful.key({ altkey, "Shift" }, "f", function () awful.spawn(string.format("mpc seek -10")) end,
               {description = "mpd seek backword by 10 sec", group = "mpd control"}),
+    awful.key({ altkey, "Shift" }, "v", function () awful.spawn(string.format("mpc volume -5")) end,
+              {description = "mpd dec volume by 5", group = "mpd control"}),
 
     -- switch sound profile between laptop and monitor
-    awful.key({ altkey,  }, "v", function () awful.spawn(string.format("pacmd set-card-profile alsa_card.pci-0000_00_1f.3 output:hdmi-stereo")) end,
+    awful.key({ modkey,  }, "v", function () awful.spawn(string.format("pacmd set-card-profile alsa_card.pci-0000_00_1f.3 output:hdmi-stereo")) end,
               {description = "switch sound profile to monitor", group = "pulse audio profile"}),
-    awful.key({ altkey,  "Shift" }, "v", function () awful.spawn(string.format("pacmd set-card-profile alsa_card.pci-0000_00_1f.3 output:analog-stereo+input:analog-stereo")) end,
+    awful.key({ modkey,  "Shift" }, "v", function () awful.spawn(string.format("pacmd set-card-profile alsa_card.pci-0000_00_1f.3 output:analog-stereo+input:analog-stereo")) end,
               {description = "switch sound profile to laptop", group = "pulse audio profile"}),
 
     awful.key({ modkey,           }, "j",
@@ -471,16 +485,16 @@ globalkeys = gears.table.join(
     awful.key({ modkey },            "r",     function () awful.screen.focused().mypromptbox:run() end,
               {description = "run prompt", group = "launcher"}),
 
-    awful.key({ modkey }, "x",
-              function ()
-                  awful.prompt.run {
-                    prompt       = "Run Lua code: ",
-                    textbox      = awful.screen.focused().mypromptbox.widget,
-                    exe_callback = awful.util.eval,
-                    history_path = awful.util.get_cache_dir() .. "/history_eval"
-                  }
-              end,
-              {description = "lua execute prompt", group = "awesome"}),
+    --awful.key({ modkey }, "x",
+    --          function ()
+    --              awful.prompt.run {
+    --                prompt       = "Run Lua code: ",
+    --                textbox      = awful.screen.focused().mypromptbox.widget,
+    --                exe_callback = awful.util.eval,
+    --                history_path = awful.util.get_cache_dir() .. "/history_eval"
+    --              }
+    --          end,
+    --          {description = "lua execute prompt", group = "awesome"}),
     -- Menubar
     awful.key({ modkey }, "p", function() menubar.show() end,
               {description = "show the menubar", group = "launcher"})
@@ -682,7 +696,7 @@ awful.rules.rules = {
           -- Floating clients but centered in screen
     { rule_any = {
        	class = {
-       		"Polkit-kde-authentication-agent-1"
+       		"Polkit-gnome-authentication-agent-1"
 				},
 				},
       	properties = { floating = true },
@@ -769,5 +783,4 @@ beautiful.notification_opacity = 50
 
 -- Autostart applications
 awful.spawn.with_shell("~/.config/awesome/autostart.sh")
-
 
