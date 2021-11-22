@@ -22,4 +22,9 @@ set -gx SNCLIRC $HOME/.config/snclirc/rc
 function fish_greeting
 end
 
+#function to run c program
+function crun
+    gcc $argv && ./a.out
+end
+
 # neofetch
